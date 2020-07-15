@@ -66,15 +66,15 @@ Do `self.dataset_loader = 'cached'` instead of `self.dataset_loader = 'standard'
 
 Spleen dataset (32+9 volumes) takes ~21 of RAM (peak use goes up to ~25 GB) with `cache_rate=1.0`. With the caching.
 
+**With `unet_grid_attention_3D` (lightest of the attention variants):**
+
+GPU ram usage (same use independent of the dataloader, `filters=[16, 32, 64, 128, 256], 171k params`) goes from 2585 MB -> ~6900 MB
+
 **With `unet_CT_multi_att_dsv_3D` (the heaviest of the attention variants):**
-
-GPU ram usage (same use independent of the dataloader, `filters=[4, 8, 16, 32, 64], 11k params`) goes from 1419 MB -> ~7500 MB
-
-**With `unet_grid_attention_3D` (the heaviest of the attention variants):**
 
 GPU ram usage (same use independent of the dataloader) goes from 2327 MB during training volumes, and above 8 GB (`RuntimeError: CUDA out of memory.`) with default `filters=[16, 32, 64, 128, 256]` . When reduced to `filters=[8, 16, 32, 64, 128]` (102k (sic!) parameters), GPU memory usage is 1775 MB -> 7827 MB, and stays close to maximum GPU memory available, leading actually eventually to `RuntimeError: CUDA out of memory` on 2nd validation epoch. With `filters=[4, 8, 16, 32, 64]` (25k parameters) you finally can test this on a consumer GPU, GPU memory use going from 1505 MB -> 7837 MB, and not crashing on 2nd epoch.
 
-  
+![unet_CT_multi_att_ds_25k_network](docs/unet_CT_multi_att_ds_25k_network.png)  
 
 
 

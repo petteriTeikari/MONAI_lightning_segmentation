@@ -47,14 +47,13 @@ class Net(LightningModule):
                 self._model = unet_grid_attention_3D(n_classes=2,
                                                      in_channels=1,
                                                      attention_dsample=(2, 2, 2),  # default (2,2,2)
-                                                     filters=[4, 8, 16, 32, 64])  # divided by scale = 4
-                                                     # -> corresponding to channels = [3, 6, 12, 24, 48]
+                                                     filters=[16, 32, 64, 128, 256]) # 171k params, divided by scale = 4
             elif attention_variant == 'unet_CT_multi_att_dsv_3D':
                 self._model = unet_CT_multi_att_dsv_3D(n_classes=2,
                                                        in_channels=1,
                                                        attention_dsample = (2,2,2), # default (2,2,2)
                                                        filters=[4, 8, 16, 32, 64]) # divided by scale = 4
-                                                       # -> corresponding to channels = [3, 6, 12, 24, 48]
+                                                       # -> corresponding to channels = [3, 6, 12, 24, 48], 8GB GPU
         else:
             # Use MONAI off-the-shelf network
             print('Training using the standard MONAI U-Net')
